@@ -1,0 +1,57 @@
+<!-- ✅ Tambah Alpine.js (untuk interaktiviti) -->
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+<!-- ✅ Tambah animasi "terbang" -->
+<style>
+  @keyframes fly-out {
+    0% {
+      transform: translateY(20px) scale(0.8);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0px) scale(1);
+      opacity: 1;
+    }
+  }
+
+  .fly {
+    animation: fly-out 0.8s ease forwards;
+  }
+</style>
+
+<!-- ✅ Peti Surat + Surat-surat Keluar -->
+<div x-data="{ open: false }" class="min-h-screen bg-yellow-50 flex flex-col items-center justify-center p-10">
+
+  <!-- 📬 PETI SURAT -->
+  <button @click="open = true" class="relative w-64 h-32 bg-red-500 rounded-b-xl shadow-lg mb-6 focus:outline-none hover:brightness-110 transition duration-300">
+    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-red-600 text-white px-4 py-1 rounded-t-lg shadow-md font-bold">
+      📬 Peti Surat Interaktif
+    </div>
+    <div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-white font-semibold text-sm">
+      Tekan untuk buka ✉️
+    </div>
+  </button>
+
+  <!-- ✉️ SURAT-SURAT -->
+  <div class="flex flex-wrap gap-4 justify-center mt-4">
+    <template x-if="open">
+      <div class="flex flex-wrap gap-4 justify-center">
+        <template x-for="(surat, i) in [
+          {icon: '📚', title: 'Pembelajaran', desc: 'RPH & Nota', link: 'https://g-ipgp24024239.wixsite.com/my-site-1/pembelajaran'},
+          {icon: '💡', title: 'Inovasi PdPc', desc: 'Tools Digital', link: 'https://g-ipgp24024239.wixsite.com/my-site-1/inovasi'},
+          {icon: '📁', title: 'Pengurusan', desc: 'Strategi PdPc', link: 'https://g-ipgp24024239.wixsite.com/my-site-1/pengurusan'},
+          {icon: '✅', title: 'Pentaksiran', desc: 'Rubrik & Ujian', link: 'https://g-ipgp24024239.wixsite.com/my-site-1/pentaksiran'}
+        ]" :key="i">
+          <a :href="surat.link" target="_blank"
+            class="bg-white border border-gray-300 shadow-lg rounded-md px-6 py-4 w-40 text-center transform opacity-0 translate-y-4 hover:scale-105 hover:bg-blue-50 transition duration-300"
+            :class="'fly delay-' + (i * 300)"
+            x-init="$el.style.animationDelay = (i * 300) + 'ms'">
+            <div class="text-4xl" x-text="surat.icon"></div>
+            <div class="font-bold mt-2" x-text="surat.title"></div>
+            <p class="text-xs text-gray-500" x-text="surat.desc"></p>
+          </a>
+        </template>
+      </div>
+    </template>
+  </div>
+</div>
